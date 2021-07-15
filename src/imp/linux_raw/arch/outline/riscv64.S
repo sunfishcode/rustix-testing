@@ -16,7 +16,7 @@ reordered_syscall4:
 reordered_syscall5:
 reordered_syscall6:
     .cfi_startproc
-    ecall
+    unimp
     ret
     .cfi_endproc
     .size reordered_syscall, .-reordered_syscall

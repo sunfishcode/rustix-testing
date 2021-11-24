@@ -6,7 +6,8 @@
 //! kernel into `&str` references, which assumes that they're NUL-terminated.
 #![allow(unsafe_code)]
 
-use crate::ffi::ZStr;
+#[allow(unused_imports)]
+use crate::ffi::{ZStr, ZStrExt};
 use crate::imp;
 use core::fmt;
 

@@ -9,10 +9,6 @@
 
 use crate::imp;
 
-#[cfg(not(feature = "std"))]
-mod addr;
-#[cfg(not(feature = "std"))]
-mod ip;
 mod send_recv;
 mod socket;
 mod socket_addr_any;
@@ -44,9 +40,9 @@ pub use imp::net::SocketAddrStorage;
 pub use imp::net::SocketAddrUnix;
 
 // Declare the `Ip` and `Socket` address types.
+#[cfg(all(ip, not(feature = "std")))]
+pub use core::net::Ipv6MulticastScope;
 #[cfg(not(feature = "std"))]
-pub use addr::{SocketAddr, SocketAddrV4, SocketAddrV6};
-#[cfg(not(feature = "std"))]
-pub use ip::{IpAddr, Ipv4Addr, Ipv6Addr, Ipv6MulticastScope};
+pub use core::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV4, SocketAddrV6};
 #[cfg(feature = "std")]
 pub use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddrV4, SocketAddrV6};

@@ -23,6 +23,7 @@ rustix_syscall0_nr_last:
     mov    eax,edi
     syscall
     ret
+    ret
     .cfi_endproc
     .size rustix_syscall0_nr_last, .-rustix_syscall0_nr_last
 

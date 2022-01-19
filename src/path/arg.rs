@@ -463,7 +463,7 @@ impl Arg for &ZStr {
 
     #[inline]
     fn to_string_lossy(&self) -> Cow<'_, str> {
-        ZStr::to_string_lossy(self)
+        ZString::to_string_lossy(self)
     }
 
     #[inline]
@@ -531,7 +531,7 @@ impl Arg for ZString {
 
     #[inline]
     fn to_string_lossy(&self) -> Cow<'_, str> {
-        ZStr::to_string_lossy(self)
+        ZString::to_string_lossy(self)
     }
 
     #[inline]
@@ -651,7 +651,7 @@ impl<'a> Arg for Cow<'a, ZStr> {
     #[inline]
     fn to_string_lossy(&self) -> Cow<'_, str> {
         let borrow: &ZStr = core::borrow::Borrow::borrow(self);
-        borrow.to_string_lossy()
+        ZString::to_string_lossy(borrow)
     }
 
     #[inline]

@@ -64,7 +64,7 @@ jobs:
 
     - run: |
         # Run the tests, and check the prebuilt release libraries.
-        cargo test --verbose --test=process --features=all-apis,cc --release --workspace -- --nocapture
+        cargo test --verbose --test=process --features=all-apis,cc --release --workspace getppid -- --nocapture
       env:
         RUST_BACKTRACE: full
 
@@ -124,6 +124,6 @@ jobs:
 
     - run: |
         # Run the tests, and check the prebuilt release libraries.
-        cargo test --verbose --test=process --features=all-apis,cc --workspace -- --nocapture
+        cargo test --verbose --test=process --features=all-apis,cc --workspace getppid -- --nocapture
       env:
         RUST_BACKTRACE: full

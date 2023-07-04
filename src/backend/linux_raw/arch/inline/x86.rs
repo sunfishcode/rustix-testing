@@ -21,11 +21,21 @@ pub(in crate::backend) unsafe fn indirect_syscall0(
     nr: SyscallNumber<'_>,
 ) -> RetReg<R0> {
     let r0;
+    let mut before: u32 = 0;
+    let mut after: u32 = 0;
     asm!(
+        "pushfd",
+        "pop DWORD PTR [{before}]",
         "call {callee}",
+        "pushfd",
+        "pop DWORD PTR [{after}]",
         callee = in(reg) callee,
-        inlateout("eax") nr.to_asm() => r0
+        before = in(reg) (&mut before as *mut u32),
+        after = in(reg) (&mut after as *mut u32),
+        inlateout("eax") nr.to_asm() => r0,
     );
+    dbg!(before, after);
+    assert_eq!(before, after);
     FromAsm::from_asm(r0)
 }
 

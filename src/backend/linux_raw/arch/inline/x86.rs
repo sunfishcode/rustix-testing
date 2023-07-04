@@ -33,7 +33,7 @@ pub(in crate::backend) unsafe fn indirect_syscall0(
         callee = in(reg) callee,
         before = in(reg) (&before as *const u32),
         after = in(reg) (&mut after as *mut u32),
-        inlateout("eax") a => r0,
+        inout("eax") a => r0,
     );
     dbg!(a, before, after, callee);
     FromAsm::from_asm(r0)

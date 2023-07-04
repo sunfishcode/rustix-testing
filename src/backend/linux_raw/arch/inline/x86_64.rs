@@ -11,13 +11,23 @@ compile_error!("x32 is not yet supported");
 #[inline]
 pub(in crate::backend) unsafe fn syscall0_readonly(nr: SyscallNumber<'_>) -> RetReg<R0> {
     let r0;
+    let before: u64 = 0xac7;
+    let mut after: u64 = 0;
+    let a = nr.to_asm();
     asm!(
+        "push QWORD PTR [{before}]",
+        "popfq",
         "syscall",
-        inlateout("rax") nr.to_asm() => r0,
-        lateout("rcx") _,
-        lateout("r11") _,
-        options(nostack, preserves_flags, readonly)
+        "pushfq",
+        "pop QWORD PTR [{after}]",
+        before = in(reg) (&before as *const u64),
+        after = in(reg) (&mut after as *mut u64),
+        inout("rax") a => r0,
+        out("rcx") _,
+        out("r11") _,
+        options(nostack, readonly)
     );
+    dbg!(a, before, after);
     FromAsm::from_asm(r0)
 }
 

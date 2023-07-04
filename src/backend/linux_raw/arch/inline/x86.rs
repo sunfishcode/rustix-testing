@@ -24,8 +24,7 @@ pub(in crate::backend) unsafe fn indirect_syscall0(
     asm!(
         "call {callee}",
         callee = in(reg) callee,
-        inlateout("eax") nr.to_asm() => r0,
-        options(preserves_flags)
+        inlateout("eax") nr.to_asm() => r0
     );
     FromAsm::from_asm(r0)
 }

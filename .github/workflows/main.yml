@@ -63,6 +63,16 @@ jobs:
       if: matrix.libc_package != '' && matrix.os == 'ubuntu-latest'
 
     - run: |
+        cargo build --test=process --verbose --features=all-apis,cc --release --workspace
+      env:
+        RUST_BACKTRACE: full
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: release_test_programs${{ matrix.build }}
+        path: /home/runner/work/rustix-testing/rustix-testing/target/i686-unknown-linux-gnu/release/deps
+
+    - run: |
         # Run the tests, and check the prebuilt release libraries.
         cargo test --verbose --test=process --features=all-apis,cc --release --workspace getppid -- --nocapture
       env:
@@ -123,7 +133,26 @@ jobs:
       if: matrix.libc_package != '' && matrix.os == 'ubuntu-latest'
 
     - run: |
+        cargo build --test=process --verbose --features=all-apis,cc --workspace
+      env:
+        RUST_BACKTRACE: full
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: debug_test_programs${{ matrix.build }}
+        path: /home/runner/work/rustix-testing/rustix-testing/target/i686-unknown-linux-gnu/debug/deps
+
+    - run: |
         # Run the tests, and check the prebuilt release libraries.
         cargo test --verbose --test=process --features=all-apis,cc --workspace getppid -- --nocapture
       env:
         RUST_BACKTRACE: full
+
+
+
+
+
+
+
+
+

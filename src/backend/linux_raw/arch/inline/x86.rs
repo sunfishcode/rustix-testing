@@ -21,7 +21,7 @@ pub(in crate::backend) unsafe fn indirect_syscall0(
     nr: SyscallNumber<'_>,
 ) -> RetReg<R0> {
     let r0;
-    let before: u32 = 0xac6;
+    let before: u32 = 0xac7;
     let mut after: u32 = 0;
     let a = nr.to_asm();
     asm!(
@@ -35,7 +35,7 @@ pub(in crate::backend) unsafe fn indirect_syscall0(
         after = in(reg) (&mut after as *mut u32),
         inlateout("eax") a => r0,
     );
-    dbg!(a, before, after);
+    dbg!(a, before, after, callee);
     FromAsm::from_asm(r0)
 }
 

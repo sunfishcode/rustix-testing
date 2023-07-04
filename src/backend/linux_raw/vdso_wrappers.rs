@@ -423,6 +423,7 @@ fn init() {
             let ptr = vdso.sym(cstr!("LINUX_2.5"), cstr!("__kernel_vsyscall"));
             assert!(!ptr.is_null());
 
+            dbg!(ptr);
             unsafe {
                 for i in 0..32 {
                     let byte = ptr.cast::<u8>().add(i).read();

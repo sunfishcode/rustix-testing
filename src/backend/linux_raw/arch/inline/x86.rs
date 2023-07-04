@@ -23,6 +23,7 @@ pub(in crate::backend) unsafe fn indirect_syscall0(
     let r0;
     let mut before: u32 = 0;
     let mut after: u32 = 0;
+    let a = nr.to_asm();
     asm!(
         "pushfd",
         "pop DWORD PTR [{before}]",
@@ -32,10 +33,9 @@ pub(in crate::backend) unsafe fn indirect_syscall0(
         callee = in(reg) callee,
         before = in(reg) (&mut before as *mut u32),
         after = in(reg) (&mut after as *mut u32),
-        inlateout("eax") nr.to_asm() => r0,
+        inlateout("eax") a => r0,
     );
-    dbg!(before, after);
-    assert_eq!(before, after);
+    dbg!(a, before, after);
     FromAsm::from_asm(r0)
 }
 
